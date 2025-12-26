@@ -89,7 +89,7 @@
         </header>
 
         <div class="flex-1 overflow-y-auto p-8 z-10">
-            <div class="mb-8 bg-gradient-to-r from-[#356839] to-[#2a4a2e] rounded-2xl p-8 text-white shadow-lg relative overflow-hidden">
+            <div class="mb-8 bg-linear-to-r from-[#356839] to-[#2a4a2e] rounded-2xl p-8 text-white shadow-lg relative overflow-hidden">
                 <div class="absolute top-0 right-0 h-full w-1/3 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
                 <div class="absolute -right-10 -bottom-20 opacity-10">
                     <iconify-icon icon="solar:documents-bold" class="text-[250px] text-white"></iconify-icon>
@@ -144,7 +144,7 @@
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <div class="bg-white rounded-xl overflow-hidden border border-[#c2cdc2] shadow-sm hover:shadow-lg hover:border-[#356839] transition-all group cursor-pointer" 
                      on:click={() => currentScreen.set('QUIZ')} role="button" tabindex="0">
-                    <div class="h-48 bg-gradient-to-br from-[#356839] to-[#2a4a2e] relative overflow-hidden flex items-center justify-center">
+                    <div class="h-48 bg-linear-to-br from-[#356839] to-[#2a4a2e] relative overflow-hidden flex items-center justify-center">
                         <iconify-icon icon="solar:book-bookmark-bold" class="text-8xl text-white opacity-90 group-hover:scale-110 transition-transform duration-300"></iconify-icon>
                         <div class="absolute top-3 right-3 bg-[#ffcd00] text-[#4a422f] text-xs font-bold px-2 py-1 rounded shadow flex items-center">
                             <iconify-icon icon="solar:check-circle-bold" class="text-xs mr-1"></iconify-icon> Hoàn Thành
@@ -169,7 +169,7 @@
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <div class="bg-white rounded-xl overflow-hidden border border-[#c2cdc2] shadow-sm hover:shadow-lg hover:border-[#ce2029] transition-all group cursor-pointer"
                      on:click={() => currentScreen.set('QUIZ')} role="button" tabindex="0">
-                    <div class="h-48 bg-gradient-to-br from-[#ce2029] to-[#a01822] relative overflow-hidden flex items-center justify-center">
+                    <div class="h-48 bg-linear-to-br from-[#ce2029] to-[#a01822] relative overflow-hidden flex items-center justify-center">
                         <iconify-icon icon="solar:shield-bold" class="text-8xl text-white opacity-90 group-hover:scale-110 transition-transform duration-300"></iconify-icon>
                     </div>
                     <div class="p-5">
@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="bg-white rounded-xl overflow-hidden border border-[#c2cdc2] shadow-sm opacity-60 cursor-not-allowed relative">
-                    <div class="h-48 bg-gradient-to-br from-[#c2cdc2] to-[#a8b3a8] relative overflow-hidden flex items-center justify-center">
+                    <div class="h-48 bg-linear-to-br from-[#c2cdc2] to-[#a8b3a8] relative overflow-hidden flex items-center justify-center">
                         <iconify-icon icon="solar:lock-password-bold" class="text-8xl text-white opacity-70"></iconify-icon>
                         <div class="absolute inset-0 bg-black/5 backdrop-blur-sm flex items-center justify-center">
                             <div class="bg-white rounded-lg px-4 py-2 shadow-lg">

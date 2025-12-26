@@ -29,7 +29,7 @@
   --color-border: var(--border);
 }
 
-/* Khai báo giá trị màu (Giữ nguyên mã màu bạn thích) */
+/* Khai báo giá trị màu */
 :root {
   --background: #f4f6f4;      /* Xanh nhạt nền */
   --foreground: #1a2f1a;      /* Đen xanh chữ */
