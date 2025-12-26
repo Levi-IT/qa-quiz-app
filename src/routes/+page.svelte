@@ -55,6 +55,7 @@
       <input placeholder="Đáp án B" bind:value={form.b} />
     </div>
     <div class="row">
+      <!-- svelte-ignore a11y_label_has_associated_control -->
       <label>Đáp án đúng:</label>
       <select bind:value={form.correct}>
         <option value="A">A</option>
