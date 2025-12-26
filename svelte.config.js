@@ -10,7 +10,7 @@ const config = {
       assets: 'build',
       fallback: 'index.html', // Quan trọng cho chế độ SPA (Single Page App)
       precompress: false,
-      strict: true
+      strict: false
     })
   }
 };
