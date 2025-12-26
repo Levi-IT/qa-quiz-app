@@ -1,0 +1,66 @@
+/* Import Tailwind v4 */
+@import "tailwindcss";
+
+/* Cấu hình Theme trực tiếp trong CSS */
+@theme {
+  /* Khai báo Font chữ */
+  --font-sans: 'Work Sans', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+
+  /* Khai báo Màu sắc (Map vào biến CSS bên dưới) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-border: var(--border);
+}
+
+/* Khai báo giá trị màu (Giữ nguyên mã màu bạn thích) */
+:root {
+  --background: #f4f6f4;      /* Xanh nhạt nền */
+  --foreground: #1a2f1a;      /* Đen xanh chữ */
+  
+  --primary: #356839;         /* Xanh quân đội chủ đạo */
+  --primary-foreground: #ffffff;
+  
+  --secondary: #e6dec6;       /* Vàng nhạt trang trí */
+  --secondary-foreground: #4a422f;
+  
+  --destructive: #ce2029;     /* Đỏ cờ */
+  --destructive-foreground: #ffffff;
+  
+  --muted: #dbeedd;           /* Xanh rất nhạt */
+  --muted-foreground: #5c6b5c;
+  
+  --card: #ffffff;
+  --card-foreground: #1a2f1a;
+  
+  --border: #c2cdc2;          /* Viền xám xanh */
+  
+  --radius: 0.5rem;
+}
+
+/* Các style cơ bản */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+}
