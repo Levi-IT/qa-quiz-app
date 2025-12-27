@@ -21,11 +21,11 @@
                 <p class="text-sm text-[#5c6b5c] uppercase tracking-widest font-bold mb-2">Tổng điểm đạt được</p>
                 <div class="flex items-end justify-center gap-2 leading-none mb-3">
                     <span class="text-7xl font-black text-[#ce2029] font-heading">{$quizResult.score}</span>
-                    <span class="text-2xl text-[#c2cdc2] font-bold mb-2">/10</span>
+                    <span class="text-2xl text-[#c2cdc2] font-bold mb-2">/100</span>
                 </div>
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-[#dbeedd] text-[#356839] rounded-full font-bold text-sm">
                     <iconify-icon icon="solar:check-circle-bold"></iconify-icon> 
-                    Đúng {$quizResult.correct}/5 câu
+                    Đúng {$quizResult.correct}/{$quizResult.total} câu
                 </div>
             </div>
 
