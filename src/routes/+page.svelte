@@ -5,17 +5,21 @@
   import Dashboard from '$lib/components/Dashboard.svelte';
   import QuizCategories from '$lib/components/QuizCategories.svelte';
   import QuizGame from '$lib/components/QuizGame.svelte';
-  import ResultScreen from '$lib/components/ResultScreen.svelte';
-</script>
-
-{#if $currentScreen === 'LOGIN'}
-    <LoginScreen />
-{:else if $currentScreen === 'DASHBOARD'}
-    <Dashboard />
-{:else if $currentScreen === 'CATEGORIES'}
-    <QuizCategories />
-{:else if $currentScreen === 'QUIZ'}
-    <QuizGame />
-{:else if $currentScreen === 'RESULT'}
-    <ResultScreen />
-{/if}
+    import ResultScreen from '$lib/components/ResultScreen.svelte';
+    import QuestionManager from '$lib/components/QuestionManager.svelte';
+  </script>
+  
+  {#if $currentScreen === 'LOGIN'}
+      <LoginScreen />
+  {:else if $currentScreen === 'DASHBOARD'}
+      <Dashboard />
+  {:else if $currentScreen === 'CATEGORIES'}
+      <QuizCategories />
+  {:else if $currentScreen === 'QUIZ'}
+      <QuizGame />
+  {:else if $currentScreen === 'RESULT'}
+      <ResultScreen />
+  {:else if $currentScreen === 'MANAGER'}
+      <QuestionManager />
+  {/if}
+  
