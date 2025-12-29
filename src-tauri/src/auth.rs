@@ -10,12 +10,17 @@ struct AuthRequest<'a> {
 }
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 pub struct AuthResponse {
-    pub localId: String, // UID
+    #[serde(rename = "localId")]
+    pub local_id: String, // UID
     pub email: String,
-    pub idToken: String,
-    pub refreshToken: String,
-    pub expiresIn: String,
+    #[serde(rename = "idToken")]
+    pub id_token: String,
+    #[serde(rename = "refreshToken")]
+    pub refresh_token: String,
+    #[serde(rename = "expiresIn")]
+    pub expires_in: String,
 }
 
 fn get_api_key() -> String {
@@ -38,7 +43,7 @@ pub async fn register_user(email: &str, password: &str) -> Result<AuthResponse, 
     
     if res.status().is_success() {
         let auth_res = res.json::<AuthResponse>().await?;
-        println!("Firebase Auth: Registration successful for UID: {}", auth_res.localId);
+        println!("Firebase Auth: Registration successful for UID: {}", auth_res.local_id);
         Ok(auth_res)
     } else {
         let err_text = res.text().await?;
@@ -63,7 +68,7 @@ pub async fn login_user(email: &str, password: &str) -> Result<AuthResponse, Box
 
     if res.status().is_success() {
         let auth_res = res.json::<AuthResponse>().await?;
-        println!("Firebase Auth: Login successful for UID: {}", auth_res.localId);
+        println!("Firebase Auth: Login successful for UID: {}", auth_res.local_id);
         Ok(auth_res)
     } else {
         let err_text = res.text().await?;

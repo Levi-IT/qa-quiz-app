@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 
 // Các màn hình trong App
-export type Screen = 'LOGIN' | 'DASHBOARD' | 'CATEGORIES' | 'QUIZ' | 'RESULT' | 'MANAGER';
+export type Screen = 'LOGIN' | 'DASHBOARD' | 'CATEGORIES' | 'QUIZ' | 'RESULT' | 'MANAGER' | 'HISTORY' | 'STATISTICS' | 'USER_MANAGER' | 'LEADERBOARD';
 
 export const currentScreen = writable<Screen>('LOGIN');
 
@@ -12,8 +12,12 @@ export const userProfile = writable({
     rank: 'Binh nhì',
     unit: '',
     isAdmin: false,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isOffline: false,
+    email: ''
 });
+
+export const isAppOnline = writable(true);
 
 export const selectedCategory = writable<{id: string, name: string} | null>(null);
 

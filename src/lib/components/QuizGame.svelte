@@ -1,11 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { currentScreen, quizResult, userProfile } from '$lib/store';
+  import { currentScreen, quizResult, userProfile, selectedCategory } from '$lib/store';
+  import { get } from 'svelte/store';
   import { invoke } from "@tauri-apps/api/core";
 
   interface Question {
     id: string;
     content: string;
+    category: string;
     answer_a: string;
     answer_b: string;
     answer_c: string;
@@ -22,9 +24,17 @@
 
   async function loadQuestions() {
     try {
-      questions = await invoke("get_all_questions");
+      const allQuestions: Question[] = await invoke("get_all_questions");
+      const category = get(selectedCategory);
+      
+      if (category) {
+        questions = allQuestions.filter(q => q.category === category.name);
+      } else {
+        questions = allQuestions;
+      }
+
       if (questions.length === 0) {
-        alert("Ngân hàng câu hỏi trống! Vui lòng liên hệ Admin.");
+        alert("Không tìm thấy câu hỏi nào cho chủ đề này! Vui lòng liên hệ Admin.");
         currentScreen.set("DASHBOARD");
         return;
       }
@@ -67,11 +77,12 @@
     });
 
     const score = Math.round((correctCount / questions.length) * 100);
+    const category = get(selectedCategory);
     quizResult.set({
       score,
       total: questions.length,
       correct: correctCount,
-      categoryName: "Kiểm tra tổng hợp"
+      categoryName: category ? category.name : "Kiểm tra tổng hợp"
     });
     currentScreen.set('RESULT');
   }
