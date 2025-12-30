@@ -2,7 +2,7 @@ mod auth;
 mod db;
 mod models;
 
-use crate::db::{Database, FirebaseRepository};
+use crate::db::{Database, SyncedRepository};
 use crate::models::{Question, UserProfile};
 use std::sync::Arc;
 use tauri::State;
@@ -26,7 +26,7 @@ async fn register_user(
     // 2. Create Profile Data
     let is_admin = email.to_lowercase().contains("admin");
     let user = UserProfile {
-        uid: auth_res.localId,
+        uid: auth_res.local_id,
         name,
         rank,
         unit,
@@ -52,13 +52,13 @@ async fn login_user(
         .map_err(|e| e.to_string())?;
 
     // 2. Fetch Profile from DB
-    let profile_opt = state.repo.get_user_profile(&auth_res.localId).await?;
+    let profile_opt = state.repo.get_user_profile(&auth_res.local_id).await?;
 
     match profile_opt {
         Some(p) => Ok(p),
         None => {
             Ok(UserProfile {
-                uid: auth_res.localId,
+                uid: auth_res.local_id,
                 name: "Chiến sĩ".to_string(),
                 rank: "Học viên".to_string(),
                 unit: "N/A".to_string(),
@@ -72,9 +72,17 @@ async fn login_user(
 // --- QUESTION COMMANDS ---
 
 #[tauri::command]
+async fn sync_data(state: State<'_, Database>) -> Result<String, String> {
+    state.repo.sync_data().await?;
+    Ok("Synced".to_string())
+}
+
+#[tauri::command]
 async fn add_question(
     state: State<'_, Database>,
     content: String,
+    category: String,
+    created_by: String,
     a: String,
     b: String,
     c: String,
@@ -89,11 +97,16 @@ async fn add_question(
     let q = Question {
         id: id.clone(),
         content,
+        category,
+        created_by,
         answer_a: a,
         answer_b: b,
         answer_c: c,
         answer_d: d,
         correct_answer: correct,
+        last_modified: 0,
+        deleted: false,
+        synced: false,
     };
 
     state.repo.add_question(q).await?;
@@ -116,6 +129,8 @@ async fn update_question(
     state: State<'_, Database>,
     id: String,
     content: String,
+    category: String,
+    created_by: String,
     a: String,
     b: String,
     c: String,
@@ -125,11 +140,16 @@ async fn update_question(
     let q = Question {
         id,
         content,
+        category,
+        created_by,
         answer_a: a,
         answer_b: b,
         answer_c: c,
         answer_d: d,
         correct_answer: correct,
+        last_modified: 0,
+        deleted: false,
+        synced: false,
     };
     state.repo.update_question(q).await?;
     state.repo.get_all_questions().await
@@ -143,19 +163,21 @@ pub fn run() {
 
     // Initialize Firebase Repository
     let db_url = std::env::var("FIREBASE_DB_URL").expect("FIREBASE_DB_URL must be set in .env");
-    println!("Initializing Firebase with URL: {}", db_url);
+    println!("Initializing Synced Repository with Remote URL: {}", db_url);
     
-    let firebase_repo = FirebaseRepository::new(&db_url);
+    // Use a local folder inside target/ to avoid triggering rebuilds on change
+    let synced_repo = SyncedRepository::new("target/my_quiz_db", &db_url);
     
     // Wrap in Arc and Database struct for Tauri State
     let db_state = Database {
-        repo: Arc::new(firebase_repo),
+        repo: Arc::new(synced_repo),
     };
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .manage(db_state)
         .invoke_handler(tauri::generate_handler![
+            sync_data,
             add_question,
             get_all_questions,
             delete_question,

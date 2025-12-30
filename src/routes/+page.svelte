@@ -7,6 +7,7 @@
   import QuizGame from '$lib/components/QuizGame.svelte';
     import ResultScreen from '$lib/components/ResultScreen.svelte';
     import QuestionManager from '$lib/components/QuestionManager.svelte';
+    import HistoryScreen from '$lib/components/HistoryScreen.svelte';
   </script>
   
   {#if $currentScreen === 'LOGIN'}
@@ -21,5 +22,7 @@
       <ResultScreen />
   {:else if $currentScreen === 'MANAGER'}
       <QuestionManager />
+  {:else if $currentScreen === 'HISTORY'}
+      <HistoryScreen />
   {/if}
   
