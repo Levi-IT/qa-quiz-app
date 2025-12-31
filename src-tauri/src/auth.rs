@@ -24,7 +24,10 @@ pub struct AuthResponse {
 }
 
 fn get_api_key() -> String {
-    env::var("FIREBASE_API_KEY")
+    // Priority: compile-time env (CI/CD) > runtime env (.env files)
+    option_env!("FIREBASE_API_KEY")
+        .map(String::from)
+        .or_else(|| env::var("FIREBASE_API_KEY").ok())
         .expect("FIREBASE_API_KEY must be set in environment variables or .env file")
 }
 
