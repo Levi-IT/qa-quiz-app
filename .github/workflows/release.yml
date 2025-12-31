@@ -42,8 +42,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Build song song cho Windows (tạo .exe) và MacOS (tạo .dmg)
-        platform: [windows-latest, macos-latest]
+        # Chỉ build cho Windows
+        platform: [windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -56,18 +56,11 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
-
-      - name: Install dependencies (macOS only)
-        if: matrix.platform == 'macos-latest'
-        run: |
-          brew install create-dmg
 
       - name: Install Frontend dependencies
         run: npm install
