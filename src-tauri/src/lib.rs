@@ -158,13 +158,15 @@ async fn update_question(
 // 3. Entry Point
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Load .env file
+    // Load .env file if it exists (for local development)
+    // In production/CI, environment variables will be injected directly
     dotenv::dotenv().ok();
 
     // Initialize Firebase Repository
-    let db_url = std::env::var("FIREBASE_DB_URL").expect("FIREBASE_DB_URL must be set in .env");
+    let db_url = std::env::var("FIREBASE_DB_URL")
+        .expect("FIREBASE_DB_URL must be set in environment variables or .env file");
     println!("Initializing Synced Repository with Remote URL: {}", db_url);
-    
+
     // Use a local folder inside target/ to avoid triggering rebuilds on change
     let synced_repo = SyncedRepository::new("target/my_quiz_db", &db_url);
     
