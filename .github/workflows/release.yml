@@ -76,5 +76,7 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_DB_URL: ${{ secrets.FIREBASE_DB_URL }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
