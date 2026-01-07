@@ -125,122 +125,124 @@
         </div>
       </header>
 
-      <div class="flex-1 flex overflow-hidden">
-        <!-- Main Quiz Area -->
-        <div class="flex-1 overflow-y-auto p-6 flex items-start justify-center">
-          <div class="w-full max-w-3xl space-y-4">
-            <!-- Question Card -->
-            <div class="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-              <div class="flex items-start gap-4">
-                <div class="size-12 rounded-lg bg-[#356839] text-white flex items-center justify-center font-bold text-lg shrink-0">
-                  {String(currentIdx + 1).padStart(2, '0')}
+      <div class="flex-1 overflow-y-auto p-8 relative pr-96">
+        <div class="max-w-3xl mx-auto space-y-4">
+          <!-- Question Card -->
+          <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+            <div class="flex items-start gap-4">
+              <div class="size-12 rounded-lg bg-[#356839] text-white flex items-center justify-center font-bold text-lg shrink-0">
+                {String(currentIdx + 1).padStart(2, '0')}
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="px-3 py-1 bg-[#e8f5e9] text-[#356839] text-xs font-bold rounded">LỊCH SỬ</span>
+                  <span class="px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded">KHÓ</span>
                 </div>
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class="px-3 py-1 bg-[#e8f5e9] text-[#356839] text-xs font-bold rounded">LỊCH SỬ</span>
-                    <span class="px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded">KHÓ</span>
-                  </div>
-                  <h3 class="text-base font-medium text-[#1a2f1a] leading-relaxed">
-                    {questions[currentIdx].content}
-                  </h3>
-                </div>
+                <h3 class="text-base font-medium text-[#1a2f1a] leading-relaxed">
+                  {questions[currentIdx].content}
+                </h3>
               </div>
             </div>
+          </div>
 
-            <!-- Answer Options -->
-            <div class="space-y-3">
-              {#each [['A', questions[currentIdx].answer_a], ['B', questions[currentIdx].answer_b], ['C', questions[currentIdx].answer_c], ['D', questions[currentIdx].answer_d]] as [key, text]}
-                <button
-                  on:click={() => handleSelect(key)}
-                  class="w-full rounded-lg p-4 flex items-center gap-4 transition-all text-left border-2 relative
-                  {userAnswers[currentIdx] === key ? 'border-[#2d5730] bg-[#2d5730]' : 'bg-white border-gray-200 hover:border-[#356839]'}"
-                >
-                  <div class="size-10 rounded-full flex items-center justify-center font-bold text-base shrink-0 border-2
-                    {userAnswers[currentIdx] === key ? 'bg-white text-[#2d5730] border-white' : 'bg-white text-[#1a2f1a] border-gray-300'}">
-                    {key}
+          <!-- Answer Options -->
+          <div class="space-y-3">
+            {#each [['A', questions[currentIdx].answer_a], ['B', questions[currentIdx].answer_b], ['C', questions[currentIdx].answer_c], ['D', questions[currentIdx].answer_d]] as [key, text]}
+              <button
+                on:click={() => handleSelect(key)}
+                class="w-full rounded-xl p-4 flex items-center gap-4 transition-all text-left border-2
+                {userAnswers[currentIdx] === key ? 'border-[#2d5730] bg-[#2d5730]' : 'bg-white border-gray-200 hover:border-[#356839]'}"
+              >
+                <div class="size-10 rounded-full flex items-center justify-center font-bold text-base shrink-0 border-2
+                  {userAnswers[currentIdx] === key ? 'bg-white text-[#2d5730] border-white' : 'bg-white text-[#1a2f1a] border-gray-300'}">
+                  {key}
+                </div>
+                <div class="flex-1 font-normal {userAnswers[currentIdx] === key ? 'text-white' : 'text-[#1a2f1a]'}">{text}</div>
+                {#if userAnswers[currentIdx] === key}
+                  <div class="shrink-0">
+                    <iconify-icon icon="solar:check-circle-bold" class="text-2xl text-white"></iconify-icon>
                   </div>
-                  <div class="flex-1 font-normal {userAnswers[currentIdx] === key ? 'text-white' : 'text-[#1a2f1a]'}">{text}</div>
-                  {#if userAnswers[currentIdx] === key}
-                    <div class="shrink-0">
-                      <iconify-icon icon="solar:check-circle-bold" class="text-2xl text-white"></iconify-icon>
-                    </div>
-                  {/if}
-                </button>
-              {/each}
-            </div>
+                {/if}
+              </button>
+            {/each}
+          </div>
 
-            <!-- Navigation Buttons -->
-            <div class="flex items-center justify-between pt-4">
-              <button
-                disabled={currentIdx === 0}
-                on:click={() => currentIdx--}
-                class="px-6 py-2.5 bg-[#e6dec6] text-[#4a422f] rounded-lg font-medium disabled:opacity-50 flex items-center gap-2 hover:bg-[#d9d1b8]"
-              >
-                <iconify-icon icon="solar:arrow-left-linear"></iconify-icon> Câu trước
-              </button>
-              <button
-                on:click={handleFinish}
-                class="px-6 py-2.5 bg-[#ce2029] text-white rounded-lg font-medium hover:bg-[#b51c24] transition-all flex items-center gap-2"
-              >
-                <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Nộp bài
-              </button>
-              <button
-                disabled={currentIdx === questions.length - 1}
-                on:click={() => currentIdx++}
-                class="px-6 py-2.5 bg-[#356839] text-white rounded-lg font-medium disabled:opacity-50 flex items-center gap-2 hover:bg-[#2d5730]"
-              >
-                Câu tiếp <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-              </button>
-            </div>
+          <!-- Navigation Buttons -->
+          <div class="flex items-center justify-between pt-4">
+            <button
+              disabled={currentIdx === 0}
+              on:click={() => currentIdx--}
+              class="px-6 py-2.5 bg-[#e6dec6] text-[#4a422f] rounded-lg font-medium disabled:opacity-50 flex items-center gap-2 hover:bg-[#d9d1b8]"
+            >
+              <iconify-icon icon="solar:arrow-left-linear"></iconify-icon> Câu trước
+            </button>
+            <button
+              on:click={handleFinish}
+              class="px-6 py-2.5 bg-[#ce2029] text-white rounded-lg font-medium hover:bg-[#b51c24] transition-all flex items-center gap-2"
+            >
+              <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Nộp bài
+            </button>
+            <button
+              disabled={currentIdx === questions.length - 1}
+              on:click={() => currentIdx++}
+              class="px-6 py-2.5 bg-[#356839] text-white rounded-lg font-medium disabled:opacity-50 flex items-center gap-2 hover:bg-[#2d5730]"
+            >
+              Câu tiếp <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+            </button>
           </div>
         </div>
 
-        <!-- Right Sidebar - Question Navigator -->
-        <aside class="w-80 bg-white border-l border-gray-200 flex flex-col h-full shrink-0">
-          <div class="p-4 border-b border-gray-200">
-            <h3 class="font-bold text-sm flex items-center gap-2">
-              <iconify-icon icon="solar:clipboard-list-bold" class="text-lg text-[#356839]"></iconify-icon>
+        <!-- Floating Right Card - Question Navigator -->
+        <aside class="fixed top-24 right-8 w-80 bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+          <div class="p-5 border-b border-gray-200 bg-white">
+            <h3 class="font-bold text-base flex items-center gap-2">
+              <iconify-icon icon="solar:list-bold" class="text-lg"></iconify-icon>
               Danh sách câu hỏi
             </h3>
           </div>
 
-          <div class="flex-1 overflow-y-auto p-4">
-            <div class="grid grid-cols-5 gap-2 mb-6">
+          <div class="p-5 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+            <!-- Question Grid -->
+            <div class="grid grid-cols-5 gap-2.5">
               {#each questions as _, i}
                 <button
                   on:click={() => currentIdx = i}
-                  class="aspect-square rounded-lg font-bold text-sm flex items-center justify-center transition-all border-2
-                  {currentIdx === i ? 'bg-[#356839] text-white border-[#356839] ring-2 ring-[#356839] ring-offset-2' :
-                   userAnswers[i] !== null ? 'bg-[#356839] text-white border-[#356839]' : 'bg-white text-gray-600 border-gray-300 hover:border-[#356839]'}"
+                  class="aspect-square rounded-lg font-bold text-sm flex items-center justify-center transition-all
+                  {currentIdx === i ? 'bg-[#356839] text-white border-2 border-[#ffcd00] shadow-lg' :
+                   userAnswers[i] !== null ? 'bg-[#c8e6c9] text-[#2d5730]' : 'bg-[#e8f0e8] text-gray-600 hover:bg-[#d4e7d7]'}"
                 >
                   {i + 1}
                 </button>
               {/each}
             </div>
 
+            <hr class="border-gray-200">
+
             <!-- Legend -->
-            <div class="space-y-2 text-xs">
-              <div class="flex items-center gap-2">
-                <div class="size-6 rounded bg-[#356839]"></div>
-                <span class="text-gray-700">Đã làm: {userAnswers.filter(a => a !== null).length}</span>
+            <div class="space-y-2.5 text-xs">
+              <div class="flex items-center gap-2.5">
+                <div class="size-5 rounded-md bg-[#c8e6c9]"></div>
+                <span class="text-gray-700 font-medium">Đã trả lời</span>
               </div>
-              <div class="flex items-center gap-2">
-                <div class="size-6 rounded bg-white border-2 border-gray-300"></div>
-                <span class="text-gray-700">Chưa trả lời</span>
+              <div class="flex items-center gap-2.5">
+                <div class="size-5 rounded-md bg-[#356839] border-2 border-[#ffcd00]"></div>
+                <span class="text-gray-700 font-medium">Câu hiện tại</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <div class="size-5 rounded-md bg-[#e8f0e8]"></div>
+                <span class="text-gray-700 font-medium">Chưa trả lời</span>
               </div>
             </div>
-          </div>
 
-          <!-- Stats at Bottom -->
-          <div class="p-4 border-t border-gray-200 bg-gray-50">
-            <div class="grid grid-cols-2 gap-3 text-center">
-              <div class="bg-white rounded-lg p-3 border border-gray-200">
-                <div class="text-2xl font-bold text-[#356839]">{userAnswers.filter(a => a !== null).length}</div>
-                <div class="text-xs text-gray-600 mt-1">Đã làm</div>
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="bg-[#c8e6c9] rounded-xl p-4 text-center">
+                <div class="text-4xl font-bold text-[#1a2f1a]">{userAnswers.filter(a => a !== null).length}</div>
+                <div class="text-xs text-gray-700 mt-1.5 font-medium">Đã làm</div>
               </div>
-              <div class="bg-white rounded-lg p-3 border border-gray-200">
-                <div class="text-2xl font-bold text-[#356839]">{questions.length - userAnswers.filter(a => a !== null).length}</div>
-                <div class="text-xs text-gray-600 mt-1">Câu dễ</div>
+              <div class="bg-[#c8e6c9] rounded-xl p-4 text-center">
+                <div class="text-4xl font-bold text-[#1a2f1a]">{questions.length - userAnswers.filter(a => a !== null).length}</div>
+                <div class="text-xs text-gray-700 mt-1.5 font-medium">Còn lại</div>
               </div>
             </div>
           </div>

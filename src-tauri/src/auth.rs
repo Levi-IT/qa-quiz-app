@@ -24,7 +24,11 @@ pub struct AuthResponse {
 }
 
 fn get_api_key() -> String {
-    env::var("FIREBASE_API_KEY").expect("FIREBASE_API_KEY must be set in .env")
+    // Priority: compile-time env (CI/CD) > runtime env (.env files)
+    option_env!("FIREBASE_API_KEY")
+        .map(String::from)
+        .or_else(|| env::var("FIREBASE_API_KEY").ok())
+        .expect("FIREBASE_API_KEY must be set in environment variables or .env file")
 }
 
 pub async fn register_user(email: &str, password: &str) -> Result<AuthResponse, Box<dyn Error>> {
