@@ -3,6 +3,7 @@
   import { currentScreen, userProfile } from "$lib/store";
   import { get } from "svelte/store";
   import { invoke } from "@tauri-apps/api/core";
+  import { save, open } from '@tauri-apps/plugin-dialog';
 
   interface Question {
     id: string;
@@ -69,6 +70,47 @@
       alert("Lỗi đồng bộ: " + e);
     } finally {
       syncing = false;
+    }
+  }
+
+  async function handleExport() {
+    try {
+      const path = await save({
+        filters: [{
+          name: 'JSON',
+          extensions: ['json']
+        }]
+      });
+      
+      if (!path) return;
+
+      const result = await invoke("export_questions", { path });
+      alert(result);
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi xuất file: " + e);
+    }
+  }
+
+  async function handleImport() {
+    try {
+      const path = await open({
+        multiple: false,
+        directory: false,
+        filters: [{
+          name: 'JSON',
+          extensions: ['json']
+        }]
+      });
+
+      if (!path) return;
+
+      const result = await invoke("import_questions", { path });
+      alert(result);
+      await loadQuestions();
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi nhập file: " + e);
     }
   }
 
@@ -186,10 +228,20 @@
       <div>
         <h1 class="text-2xl font-heading font-bold text-[#1a2f1a]">Quản Lý Ngân Hàng Câu Hỏi</h1>
       </div>
-      <button onclick={handleSync} disabled={syncing} class="flex items-center gap-2 bg-[#356839] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#2a522d] transition-colors disabled:opacity-50">
-        <iconify-icon icon={syncing ? "line-md:loading-twotone-loop" : "solar:cloud-upload-bold"} class="text-xl"></iconify-icon>
-        {syncing ? "Đang đồng bộ..." : "Đồng Bộ Dữ Liệu"}
-      </button>
+      <div class="flex gap-2">
+        <button onclick={handleImport} class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition-colors">
+          <iconify-icon icon="solar:import-bold" class="text-xl"></iconify-icon>
+          Import
+        </button>
+        <button onclick={handleExport} class="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-orange-700 transition-colors">
+          <iconify-icon icon="solar:export-bold" class="text-xl"></iconify-icon>
+          Export
+        </button>
+        <button onclick={handleSync} disabled={syncing} class="flex items-center gap-2 bg-[#356839] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#2a522d] transition-colors disabled:opacity-50">
+          <iconify-icon icon={syncing ? "line-md:loading-twotone-loop" : "solar:cloud-upload-bold"} class="text-xl"></iconify-icon>
+          {syncing ? "Đang đồng bộ..." : "Đồng Bộ Dữ Liệu"}
+        </button>
+      </div>
     </header>
 
     <div class="flex flex-col lg:flex-row gap-6 flex-1">

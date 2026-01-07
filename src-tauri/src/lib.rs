@@ -6,6 +6,7 @@ use crate::db::{Database, SyncedRepository};
 use crate::models::{Question, UserProfile};
 use std::sync::Arc;
 use tauri::State;
+use std::fs;
 
 // --- AUTH COMMANDS ---
 
@@ -70,6 +71,27 @@ async fn login_user(
 }
 
 // --- QUESTION COMMANDS ---
+
+#[tauri::command]
+async fn export_questions(state: State<'_, Database>, path: String) -> Result<String, String> {
+    let questions = state.repo.get_all_questions().await?;
+    let json = serde_json::to_string_pretty(&questions).map_err(|e| e.to_string())?;
+    fs::write(&path, json).map_err(|e| e.to_string())?;
+    Ok(format!("Exported {} questions to {}", questions.len(), path))
+}
+
+#[tauri::command]
+async fn import_questions(state: State<'_, Database>, path: String) -> Result<String, String> {
+    let content = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+    let questions: Vec<Question> = serde_json::from_str(&content).map_err(|e| e.to_string())?;
+    
+    let count = questions.len();
+    for q in questions {
+        state.repo.add_question(q).await?;
+    }
+    
+    Ok(format!("Imported {} questions from {}", count, path))
+}
 
 #[tauri::command]
 async fn sync_data(state: State<'_, Database>) -> Result<String, String> {
@@ -175,6 +197,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .manage(db_state)
         .invoke_handler(tauri::generate_handler![
             sync_data,
@@ -183,7 +206,9 @@ pub fn run() {
             delete_question,
             update_question,
             register_user,
-            login_user
+            login_user,
+            export_questions,
+            import_questions
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
