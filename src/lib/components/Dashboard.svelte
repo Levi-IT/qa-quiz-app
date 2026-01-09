@@ -6,6 +6,7 @@
     import TopicCard from "./TopicCard.svelte";
     import ProfileCard from "./ProfileCard.svelte";
     import Leaderboard from "./Leaderboard.svelte";
+    import { open } from '@tauri-apps/plugin-dialog';
 
   const today = new Intl.DateTimeFormat('vi-VN', {
     weekday: 'long',
@@ -13,6 +14,27 @@
     month: 'long',
     day: 'numeric'
   }).format(new Date());
+
+  async function handleImport() {
+    try {
+      const path = await open({
+        multiple: false,
+        directory: false,
+        filters: [{
+          name: 'JSON',
+          extensions: ['json']
+        }]
+      });
+
+      if (!path) return;
+
+      const result = await invoke("import_questions", { path });
+      alert(result);
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi nhập file: " + e);
+    }
+  }
 
   onMount(async () => {
     try {
@@ -85,6 +107,14 @@
               <iconify-icon icon="solar:play-bold" class="text-xl"
               ></iconify-icon>
               Vào Thi Ngay
+            </button>
+
+            <button
+              onclick={handleImport}
+              class="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-2.5 rounded-lg font-medium hover:bg-white/20 transition-colors flex items-center gap-2"
+            >
+              <iconify-icon icon="solar:import-bold" class="text-xl"></iconify-icon>
+              Import
             </button>
 
             {#if $userProfile.isAdmin}
