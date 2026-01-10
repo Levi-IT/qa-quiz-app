@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    qa_quiz_app_lib::run()
+    phan_mem_giao_duc_lib::run()
 }
