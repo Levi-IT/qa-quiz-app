@@ -1,6 +1,7 @@
 <script lang="ts">
   import { userProfile, currentScreen } from "$lib/store";
   import { invoke } from "@tauri-apps/api/core";
+  import { open } from "@tauri-apps/plugin-dialog";
 
   let email = $state("");
   let password = $state("");
@@ -44,6 +45,29 @@
 
     return () => clearInterval(interval);
   });
+
+  async function handleImport() {
+    try {
+      const path = await open({
+        multiple: false,
+        directory: false,
+        filters: [
+          {
+            name: "JSON",
+            extensions: ["json"],
+          },
+        ],
+      });
+
+      if (!path) return;
+
+      const result = await invoke("import_questions", { path });
+      alert(result);
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi nhập file: " + e);
+    }
+  }
 
   function validate() {
     let isValid = true;
@@ -244,6 +268,18 @@
           HỆ THỐNG ĐĂNG NHẬP
         </h1>
       </div>
+
+      <button
+        onclick={handleImport}
+        class="absolute top-4 right-4 z-50 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full hover:bg-white/20 transition-all font-bold text-sm shadow-lg group"
+        title="Import Dữ Liệu Câu Hỏi"
+      >
+        <iconify-icon
+          icon="solar:import-bold"
+          class="text-xl group-hover:scale-110 transition-transform"
+        ></iconify-icon>
+        <span>Import Data</span>
+      </button>
 
       <div class="mt-2 space-y-4">
         <!-- Email -->
