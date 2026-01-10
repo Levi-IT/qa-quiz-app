@@ -204,7 +204,7 @@
 </script>
 
 <div
-  class="h-screen w-full flex items-center justify-center relative overflow-hidden"
+  class="h-screen w-full flex items-start justify-center relative overflow-hidden pt-20"
 >
   <!-- Background Image -->
   <div
@@ -391,23 +391,23 @@
                 <select
                   id="rank"
                   bind:value={rank}
-                  class="w-full h-10 px-3 pr-10 bg-transparent border-2 {errors.rank
+                  class="w-full h-10 px-3 pr-10 bg-white/90 border-2 {errors.rank
                     ? 'border-red-500'
                     : 'border-[#c2cdc2]'} rounded-lg focus:border-[#356839] outline-none text-sm font-semibold appearance-none {!rank
-                    ? 'text-white/60'
+                    ? 'text-gray-500'
                     : 'text-black'}"
                 >
-                  <option value="" disabled selected>Cấp bậc</option>
-                  <option>Học viên</option>
-                  <option>Binh nhì</option>
-                  <option>Binh nhất</option>
-                  <option>Hạ sĩ</option>
-                  <option>Trung sĩ</option>
-                  <option>Thượng sĩ</option>
-                  <option>Thiếu úy</option>
-                  <option>Trung úy</option>
-                  <option>Thượng úy</option>
-                  <option>Đại úy</option>
+                  <option value="" disabled selected class="text-gray-500">Cấp bậc</option>
+                  <option class="text-black bg-white">Học viên</option>
+                  <option class="text-black bg-white">Binh nhì</option>
+                  <option class="text-black bg-white">Binh nhất</option>
+                  <option class="text-black bg-white">Hạ sĩ</option>
+                  <option class="text-black bg-white">Trung sĩ</option>
+                  <option class="text-black bg-white">Thượng sĩ</option>
+                  <option class="text-black bg-white">Thiếu úy</option>
+                  <option class="text-black bg-white">Trung úy</option>
+                  <option class="text-black bg-white">Thượng úy</option>
+                  <option class="text-black bg-white">Đại úy</option>
                 </select>
                 <div
                   class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
@@ -502,6 +502,19 @@
 </div>
 
 <style>
+  /* Style for select dropdown options */
+  select#rank option {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  select#rank option:hover,
+  select#rank option:focus,
+  select#rank option:checked {
+    background-color: #2c5f4a !important;
+    color: white !important;
+  }
+
   @keyframes marquee {
     0% {
       transform: translateX(0%);

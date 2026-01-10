@@ -75,19 +75,6 @@
     </header>
 
     <div class="flex-1 overflow-y-auto p-8 z-10 relative">
-      {#if $userProfile.isOffline}
-        <div
-          class="mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow-md"
-          role="alert"
-        >
-          <p class="font-bold">Chế độ Offline</p>
-          <p>
-            Bạn đang đăng nhập ở chế độ Offline - Bài thi sau khi làm xong sẽ
-            không được lưu lại cho các thiết bị khác.
-          </p>
-        </div>
-      {/if}
-
       <div
         class="mb-8 bg-linear-to-r from-[#356839] to-[#2a4a2e] rounded-2xl p-8 text-white shadow-lg relative overflow-hidden"
       >
