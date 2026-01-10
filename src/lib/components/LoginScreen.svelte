@@ -202,13 +202,13 @@
   <div class="absolute top-2 left-0 w-full py-1 overflow-hidden z-40">
     <div class="animate-marquee whitespace-nowrap">
       <span class="text-[#FFD700] font-bold text-sm mx-8 drop-shadow-lg">
-        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG🇻🇳
+        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG.
       </span>
       <span class="text-[#FFD700] font-bold text-sm mx-8 drop-shadow-lg">
-        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG 🇻🇳
+        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG.
       </span>
       <span class="text-[#FFD700] font-bold text-sm mx-8 drop-shadow-lg">
-        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG 🇻🇳
+        🚁 ĐOÀN KẾT - SÁNG TẠO - TỰ LỰC - TỰ CƯỜNG - DŨNG CẢM - QUYẾT THẮNG.
       </span>
     </div>
   </div>
